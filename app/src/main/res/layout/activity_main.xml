@@ -1,19 +1,299 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#F8F9FA"
+    android:fillViewport="true"
     tools:context=".MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/main"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:padding="16dp">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <!-- Title -->
+        <TextView
+            android:id="@+id/tvAppTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="WorkManager Interactive Demo"
+            android:textColor="#202124"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvAppSubtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Understand background tasks, constraints, and progress"
+            android:textColor="#5F6368"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvAppTitle" />
+
+        <!-- One-Time Work Card -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardOneTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="2dp"
+            app:cardBackgroundColor="#FFFFFF"
+            app:strokeWidth="0dp"
+            app:layout_constraintTop_toBottomOf="@id/tvAppSubtitle">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1. One-Time Work Request"
+                    android:textColor="#1A73E8"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="Runs once in the background. Simulates progress."
+                    android:textColor="#70757A"
+                    android:textSize="12sp" />
+
+                <!-- Input Duration -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Duration (seconds): "
+                        android:textColor="#3C4043"
+                        android:textSize="14sp" />
+
+                    <EditText
+                        android:id="@+id/etDuration"
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:gravity="center"
+                        android:inputType="number"
+                        android:text="10"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <!-- Constraints Selection -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="Execution Constraints:"
+                    android:textColor="#3C4043"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <CheckBox
+                    android:id="@+id/cbRequireCharging"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Require Charging (Battery plug-in)"
+                    android:textSize="14sp" />
+
+                <CheckBox
+                    android:id="@+id/cbRequireNetwork"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Require Unmetered Network (Wi-Fi)"
+                    android:textSize="14sp" />
+
+                <!-- Action Button -->
+                <Button
+                    android:id="@+id/btnStartOneTime"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:backgroundTint="#1A73E8"
+                    android:text="Start One-Time Work"
+                    android:textAllCaps="false"
+                    android:textColor="#FFFFFF" />
+
+                <!-- Status & Progress -->
+                <TextView
+                    android:id="@+id/tvOneTimeStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="Status: IDLE"
+                    android:textColor="#3C4043"
+                    android:textSize="14sp" />
+
+                <ProgressBar
+                    android:id="@+id/pbOneTime"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp"
+                    android:layout_marginTop="8dp"
+                    android:max="100"
+                    android:progress="0"
+                    android:progressTint="#1A73E8" />
+
+                <TextView
+                    android:id="@+id/tvOneTimeResult"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Result: N/A"
+                    android:textColor="#3C4043"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Periodic Work Card -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardPeriodic"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="2dp"
+            app:cardBackgroundColor="#FFFFFF"
+            app:strokeWidth="0dp"
+            app:layout_constraintTop_toBottomOf="@id/cardOneTime">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="2. Periodic Work Request"
+                    android:textColor="#188038"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="Repeats at set intervals. Minimum allowed: 15 mins."
+                    android:textColor="#70757A"
+                    android:textSize="12sp" />
+
+                <!-- Action Button -->
+                <Button
+                    android:id="@+id/btnStartPeriodic"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:backgroundTint="#188038"
+                    android:text="Start Periodic Work (15m)"
+                    android:textAllCaps="false"
+                    android:textColor="#FFFFFF" />
+
+                <TextView
+                    android:id="@+id/tvPeriodicStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="Status: IDLE"
+                    android:textColor="#3C4043"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Control Actions and Logs Card -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardControls"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="2dp"
+            app:cardBackgroundColor="#FFFFFF"
+            app:strokeWidth="0dp"
+            app:layout_constraintTop_toBottomOf="@id/cardPeriodic">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="3. Global Actions &amp; Console"
+                    android:textColor="#D93025"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/btnCancelAll"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:backgroundTint="#D93025"
+                    android:text="Cancel All Active Workers"
+                    android:textAllCaps="false"
+                    android:textColor="#FFFFFF" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="Real-time Event Logs:"
+                    android:textColor="#3C4043"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <!-- Console Box -->
+                <ScrollView
+                    android:id="@+id/svLogs"
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp"
+                    android:layout_marginTop="8dp"
+                    android:background="#202124"
+                    android:padding="8dp">
+
+                    <TextView
+                        android:id="@+id/tvLogs"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="monospace"
+                        android:text="[Console ready]\n"
+                        android:textColor="#81C995"
+                        android:textSize="11sp" />
+
+                </ScrollView>
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
